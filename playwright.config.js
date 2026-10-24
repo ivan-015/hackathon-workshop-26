@@ -14,6 +14,7 @@ const LOCAL_URL = `http://127.0.0.1:${PORT}`;
 export default defineConfig({
   testDir: './e2e',
   testMatch: '**/*.spec.js',
+  testIgnore: 'main-flow.spec.js', // recorded walkthrough: playwright.flow.config.js
   timeout: 30_000,
   expect: { timeout: 5_000 },
   fullyParallel: true,
