@@ -8,7 +8,8 @@
   "scripts": {
     "test": "node --test",
     "eval": "node --env-file-if-exists=.env.local scripts/eval-photos.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:flow": "playwright test -c playwright.flow.config.js"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1"
