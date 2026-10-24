@@ -1,0 +1,88 @@
+{
+  "part": {
+    "name": "Front brake caliper",
+    "variant": "floating, single piston",
+    "confidence": 0.92
+  },
+  "job": "Replace front brake pads",
+  "tools": [
+    "Floor jack and two jack stands",
+    "Lug wrench or 19 mm socket",
+    "14 mm socket + ratchet",
+    "C-clamp or brake piston tool",
+    "Bungee or wire hook",
+    "Torque wrench",
+    "Brake cleaner and a wire brush"
+  ],
+  "safety": [
+    "Car on jack stands, never just the jack",
+    "Wear eye protection; brake dust and cleaner spray are harmful",
+    "Never press the brake pedal while the caliper is off"
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Loosen the lug nuts half a turn with the wheel still on the ground.",
+      "spec": null,
+      "warning": "Park on level ground with the parking brake on",
+      "check_goal": "Wheel on the ground, every lug nut cracked loose"
+    },
+    {
+      "n": 2,
+      "text": "Jack up the car, set it on jack stands, and remove the wheel.",
+      "spec": null,
+      "warning": "Place the stands under the marked jacking points",
+      "check_goal": "Car resting on a jack stand, wheel off, caliper visible"
+    },
+    {
+      "n": 3,
+      "text": "Remove the two caliper guide pin bolts.",
+      "spec": "25-35 Nm on reinstall",
+      "warning": "Support the caliper; never let it hang by the brake hose",
+      "check_goal": "Both guide pin bolts removed, caliper lifted off the bracket"
+    },
+    {
+      "n": 4,
+      "text": "Hang the caliper from the spring with a bungee.",
+      "spec": null,
+      "warning": "Keep the brake hose slack, never twisted or stretched",
+      "check_goal": "Caliper hanging from a bungee, hose slack"
+    },
+    {
+      "n": 5,
+      "text": "Slide the old pads and their clips out of the bracket.",
+      "spec": "Replace pads below 3 mm of friction material",
+      "warning": null,
+      "check_goal": "Caliper bracket empty, old pads removed"
+    },
+    {
+      "n": 6,
+      "text": "Clean the bracket slides, then fit new clips and new pads.",
+      "spec": null,
+      "warning": "Keep grease and cleaner off the pad friction surface",
+      "check_goal": "New pads seated in the bracket with the friction side facing the rotor"
+    },
+    {
+      "n": 7,
+      "text": "Press the piston fully back with the C-clamp and an old pad.",
+      "spec": null,
+      "warning": "Watch the brake fluid reservoir so it does not overflow",
+      "check_goal": "Piston flush with the caliper body"
+    },
+    {
+      "n": 8,
+      "text": "Refit the caliper over the pads and torque the guide pin bolts.",
+      "spec": "25-35 Nm",
+      "warning": null,
+      "check_goal": "Caliper back on the bracket, both guide pin bolts installed"
+    },
+    {
+      "n": 9,
+      "text": "Refit the wheel, lower the car, torque the lug nuts, and pump the pedal until firm.",
+      "spec": "Lug nuts 100-140 Nm in a star pattern",
+      "warning": "Pump the brake pedal before driving; the first press goes to the floor",
+      "check_goal": "Wheel back on, car on the ground"
+    }
+  ],
+  "unidentified": false
+}

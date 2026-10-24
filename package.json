@@ -1,0 +1,15 @@
+{
+  "name": "greasy-hands-copilot",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "scripts": {
+    "test": "node --test",
+    "eval": "node --env-file-if-exists=.env.local scripts/eval-photos.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
+}
