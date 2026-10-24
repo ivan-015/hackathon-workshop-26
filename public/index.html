@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#ff7a1f">
   <meta name="description" content="Workshop links from Ivan Vigliante: the Greasy Hands Copilot demo, its repo, and the Claude Code skills it was built with.">
   <title>From Vibecoded to Demo-Ready · Ivan Vigliante</title>
-  <link rel="preconnect" href="https://api.fontshare.com">
-  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
   <script>document.documentElement.classList.add('js');</script>
   <style>
     :root {
@@ -23,7 +23,7 @@
       --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
       --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
       --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-      font-family: "General Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
 
     * { box-sizing: border-box; }
@@ -36,10 +36,14 @@
       line-height: 1.45;
       -webkit-font-smoothing: antialiased;
     }
+    main, footer { position: relative; z-index: 1; }
+
+    /* Wireframe gear train (links/gears.js), fixed behind everything. */
+    .gears { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     img { display: block; max-width: 100%; }
     a { color: inherit; }
     a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
-    h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.02em; line-height: 0.95; }
+    h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
     p { margin: 0; }
 
     /* The striped band: filled ink and paper bars, like a shop awning. */
@@ -57,6 +61,7 @@
     }
     .card {
       min-width: 0;
+      transition: transform 400ms var(--ease);
       background: var(--paper);
       display: flex;
       flex-direction: column;
@@ -71,7 +76,9 @@
       gap: 32px;
       padding: 56px clamp(24px, 4vw, 64px);
     }
-    .card h1 { font-size: clamp(2.375rem, 0.9rem + 4.6vw, 5.25rem); letter-spacing: -0.035em; }
+    .card h1 { font-size: clamp(2rem, 0.6rem + 3.8vw, 4.5rem); letter-spacing: -0.05em; }
+    .cursor { display: inline-block; width: 0.55em; height: 0.85em; margin-left: 0.08em; vertical-align: -0.05em; background: var(--bg); animation: blink 1.1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
     .card .lede { max-width: 36ch; }
     .btn {
       display: inline-flex;
@@ -113,6 +120,14 @@
       transition: opacity 1.6s ease;
     }
     .screens img.on { opacity: 1; }
+    .screens::after {
+      content: "";
+      grid-area: 1 / 1;
+      align-self: stretch;
+      justify-self: stretch;
+      pointer-events: none;
+      background: repeating-linear-gradient(to bottom, rgb(255 122 31 / 0.07) 0 1px, transparent 1px 4px);
+    }
     html:not(.js) .screens img:first-child { opacity: 1; }
 
     /* You'll need: the torn tool sheet over the garage. */
@@ -156,7 +171,10 @@
       text-decoration: none;
       transition: background-color 160ms, transform 160ms var(--ease);
     }
-    .item:hover { background: var(--paper-step); }
+    .item:hover { background: var(--ink); color: var(--bg); }
+    .item:hover span { color: var(--paper); }
+    .item b::before { content: "> "; color: var(--muted); }
+    .item:hover b::before { color: var(--bg); }
     .item:active { transform: scale(0.99); }
     .item b { font-size: var(--step-lead); font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; }
     .item span { grid-column: 1; font-size: var(--step-body); color: var(--muted); }
@@ -174,6 +192,7 @@
       background: var(--ink);
       color: var(--paper);
       min-height: 320px;
+      transition: transform 400ms var(--ease);
     }
     .coupon::before, .coupon::after {
       content: "";
@@ -203,8 +222,8 @@
     footer { padding: 0 var(--m) var(--m); }
     footer .stripe { height: 8px; }
     .signature {
-      font-size: 12.2vw;
-      font-weight: 700;
+      font-size: 11.5vw;
+      font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 0.9;
       padding: 48px 0 32px;
@@ -214,8 +233,8 @@
     .credits a { text-underline-offset: 3px; }
 
     /* Entrances: hidden only when script runs, so content never stays hidden. */
-    .js .rise { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); transition-delay: calc(var(--i, 0) * 75ms); }
-    .js .rise.in { opacity: 1; transform: none; }
+    .js .rise { opacity: 0; translate: 0 24px; transition: opacity 700ms var(--ease), translate 700ms var(--ease), transform 400ms var(--ease); transition-delay: calc(var(--i, 0) * 75ms); }
+    .js .rise.in { opacity: 1; translate: none; }
 
     @media (max-width: 860px) {
       .hero { grid-template-columns: minmax(0, 1fr); min-height: 0; }
@@ -224,7 +243,7 @@
       .stripe { height: 40px; }
       .card-body { padding: 32px 24px 40px; gap: 24px; }
       .coupon .btn { padding: 0 20px; }
-      .card h1 { font-size: clamp(2.375rem, 10.2vw, 5.5rem); }
+      .card h1 { font-size: clamp(1.75rem, 9vw, 4.5rem); }
       .card-links { flex-wrap: wrap; gap: 12px 24px; }
       .needs { padding: 96px var(--m); }
       .sheet { grid-column: 1 / -1; padding: 56px 28px; }
@@ -236,11 +255,12 @@
       .coupon { --split: 200px; }
       .coupon-left { padding: 32px 28px; min-height: var(--split); }
       .coupon-right { padding: 32px 28px; border-left: 0; border-top: 5px dotted var(--bg); }
-      .signature { font-size: 15.5vw; padding-top: 40px; }
+      .signature { padding-top: 40px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .js .rise { opacity: 1; transform: none; transition: none; }
+      .js .rise { opacity: 1; translate: none; transition: none; }
+      .cursor { animation: none; }
       .screens img { transition: none; }
       .needs-photo { transform: none; }
       .btn, .item { transition: none; }
@@ -248,12 +268,13 @@
   </style>
 </head>
 <body>
+  <canvas class="gears" aria-hidden="true"></canvas>
   <main>
     <section class="hero" aria-labelledby="title">
       <article class="card">
         <div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <div class="card-body">
-          <h1 id="title" class="rise" style="--i:1">From Vibecoded<br>to Demo&#8209;Ready</h1>
+          <h1 id="title" class="rise" style="--i:1" data-scramble>From Vibecoded<br>to Demo&#8209;Ready<span class="cursor" aria-hidden="true"></span></h1>
           <p class="lede rise" style="--i:2">A hackathon workshop by Ivan Vigliante. One photo of a car part becomes a voice-guided repair job, built with Claude Code.</p>
           <a class="btn rise" style="--i:3" href="/demo/?demo=1">Try the demo</a>
         </div>
@@ -274,7 +295,7 @@
     <section class="needs" id="needs" aria-labelledby="needs-title">
       <img class="needs-photo" src="/links/img/mechanic.jpg" width="934" height="1400" alt="A mechanic in work gloves cranks a transmission jack under a lifted car" loading="lazy">
       <div class="sheet">
-        <h2 id="needs-title" class="rise">You'll need</h2>
+        <h2 id="needs-title" class="rise" data-scramble>You'll need</h2>
         <p class="note rise" style="--i:1">Everything from today's workshop. Tap a line to open it.</p>
 
         <div class="group">
@@ -303,7 +324,7 @@
     <section class="ask" id="ask" aria-labelledby="ask-title">
       <div class="coupon rise">
         <div class="coupon-left">
-          <h2 id="ask-title">Questions?</h2>
+          <h2 id="ask-title" data-scramble>Questions?</h2>
           <p>About the build, the skills or the talk. Tear this off and send it.</p>
         </div>
         <div class="coupon-right">
@@ -316,7 +337,7 @@
 
   <footer>
     <div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <p class="signature" aria-hidden="true">Ivan Vigliante</p>
+    <p class="signature" aria-hidden="true" data-scramble>Ivan Vigliante</p>
     <p class="credits">Pictures: <a href="https://commons.wikimedia.org/w/index.php?curid=194512646">“Car mechanic worker repairing suspension of lifted automobile at auto repair garage shop”</a> by Shixart1985, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>, via Wikimedia Commons. App screens from the Greasy Hands Copilot demo.</p>
   </footer>
 
@@ -350,6 +371,56 @@
         risers.forEach((el) => io.observe(el));
       }
 
+      // Decrypt effect: each character cycles through glyphs until it locks in.
+      const GLYPHS = '!<>-_\\/[]{}=+*^?#01';
+      const scramble = (el) => {
+        if (!el.hasAttribute('aria-hidden')) el.setAttribute('aria-label', el.textContent.trim());
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push({ node: walker.currentNode, text: walker.currentNode.nodeValue });
+        const total = nodes.reduce((n, { text }) => n + text.length, 0);
+        const duration = 900;
+        const t0 = performance.now();
+        const frame = (now) => {
+          const locked = Math.floor(((now - t0) / duration) * total);
+          let index = 0;
+          nodes.forEach(({ node, text }) => {
+            node.nodeValue = [...text].map((ch) => {
+              index += 1;
+              if (index <= locked || ch.trim() === '') return ch;
+              return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+            }).join('');
+          });
+          if (locked < total) requestAnimationFrame(frame);
+        };
+        requestAnimationFrame(frame);
+      };
+      const coded = document.querySelectorAll('[data-scramble]');
+      if (!reduce && 'IntersectionObserver' in window) {
+        const decoder = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            scramble(entry.target);
+            decoder.unobserve(entry.target);
+          });
+        });
+        coded.forEach((el) => decoder.observe(el));
+      }
+
+      // 3D tilt toward the pointer on the card and the coupon.
+      if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        document.querySelectorAll('.card, .coupon').forEach((el) => {
+          const max = el.classList.contains('card') ? 3 : 6;
+          el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            el.style.transform = `perspective(1400px) rotateX(${(-y * max).toFixed(2)}deg) rotateY(${(x * max).toFixed(2)}deg)`;
+          });
+          el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+        });
+      }
+
       const photo = document.querySelector('.needs-photo');
       if (!reduce && photo) {
         const section = photo.parentElement;
@@ -363,5 +434,6 @@
       }
     })();
   </script>
+  <script type="module" src="/links/gears.js"></script>
 </body>
 </html>
