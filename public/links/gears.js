@@ -1,5 +1,5 @@
 // Wireframe gear train behind the links page: meshing gears that turn with
-// time and scroll and lean toward the pointer. Fails quietly without WebGL.
+// time and lean toward the pointer. Fails quietly without WebGL.
 const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
 const INK = 0x050f16;
 const MODULE = 0.25; // tooth size shared by every gear so they mesh
@@ -65,15 +65,15 @@ function meshWith(anchor, gear, angle) {
 }
 
 function buildTrain(THREE) {
-  const drive = makeGear(THREE, 28, 0.55);
+  const drive = makeGear(THREE, 28, 0.8);
   drive.ratio = 1;
   drive.phase = 0;
   const gears = [
     drive,
-    meshWith(drive, makeGear(THREE, 12, 0.55), Math.PI * 0.82),
-    meshWith(drive, makeGear(THREE, 18, 0.45), Math.PI * 1.55),
+    meshWith(drive, makeGear(THREE, 12, 0.8), Math.PI * 0.82),
+    meshWith(drive, makeGear(THREE, 18, 0.7), Math.PI * 1.55),
   ];
-  gears.push(meshWith(gears[2], makeGear(THREE, 10, 0.4), Math.PI * 1.15));
+  gears.push(meshWith(gears[2], makeGear(THREE, 10, 0.6), Math.PI * 1.15));
 
   const group = new THREE.Group();
   gears.forEach((g) => group.add(g.mesh));
@@ -101,9 +101,10 @@ async function start(canvas) {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     const narrow = w < 860;
-    base.x = narrow ? 1.2 : 4.2;
-    base.y = narrow ? 1.5 : 0.4;
-    group.scale.setScalar(narrow ? 0.75 : 1);
+    // Centre the train behind the phone column on wide screens.
+    base.x = narrow ? 1.2 : camera.aspect * 4.4;
+    base.y = narrow ? 1.5 : -0.8;
+    group.scale.setScalar(narrow ? 0.75 : 1.25);
   };
   resize();
   addEventListener('resize', resize);
@@ -116,7 +117,7 @@ async function start(canvas) {
   }, { passive: true });
 
   const render = (time) => {
-    const turn = (reduce ? 0 : time * 0.00018) + scrollY * 0.0016;
+    const turn = reduce ? 0 : time * 0.00018;
     gears.forEach((g) => { g.mesh.rotation.z = g.phase + turn * g.ratio; });
 
     lean.x += (pointer.x - lean.x) * 0.05;
@@ -129,7 +130,6 @@ async function start(canvas) {
 
   if (reduce) {
     render(0);
-    addEventListener('scroll', () => requestAnimationFrame(render), { passive: true });
     addEventListener('resize', () => render(0));
     return;
   }
