@@ -12,7 +12,7 @@ test('identify returns 200 with job_id null and the full job still runs', async 
   await useFakeSpeech(page);
   const { claudeCalls: before } = await (await request.get('/api/__e2e')).json();
 
-  await page.goto('/');
+  await page.goto('/demo/');
   const responsePromise = page.waitForResponse((r) => r.url().endsWith('/api/identify'));
   await choosePhoto(page);
   const response = await responsePromise;

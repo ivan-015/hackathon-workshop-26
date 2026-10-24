@@ -12,7 +12,7 @@ test('low confidence shows the retake prompt and still allows START ANYWAY', asy
   await page.route(IDENTIFY_GLOB, identifyOk(LOW_CONFIDENCE_PLAN));
   const s = screens(page);
 
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await expect(s.identified).toBeVisible();
   await expect(page.locator('#low-confidence')).toBeVisible();
@@ -29,7 +29,7 @@ test('low confidence shows the retake prompt and still allows START ANYWAY', asy
 
 test('low confidence: RETAKE returns to capture', async ({ page }) => {
   await page.route(IDENTIFY_GLOB, identifyOk(LOW_CONFIDENCE_PLAN));
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await page.locator('#retake-btn').tap();
   await expect(screens(page).capture).toBeVisible();
@@ -40,7 +40,7 @@ test('unidentified plan: no START button, retake prompt, retake returns to captu
   await page.route(IDENTIFY_GLOB, identifyOk(UNIDENTIFIED_PLAN));
   const s = screens(page);
 
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await expect(s.identified).toBeVisible();
   await expect(page.locator('#part-name')).toHaveText('Part not identified');

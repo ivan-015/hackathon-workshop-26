@@ -20,7 +20,7 @@ test('15s client timeout shows the retry screen, never the cached plan; retry su
     return identifyOk(STUB_PLAN)(route);
   });
 
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await expect(page.locator('#uploading')).toBeVisible();
   await expect.poll(() => calls).toBe(1);
@@ -54,7 +54,7 @@ for (const { status, body, text } of ERROR_CASES) {
   test(`HTTP ${status} from /api/identify shows "${text}" without the cached plan`, async ({ page }) => {
     const requests = trackRequests(page);
     await page.route(IDENTIFY_GLOB, (route) => route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) }));
-    await page.goto('/');
+    await page.goto('/demo/');
     await choosePhoto(page);
     await expect(page.locator('#capture-error')).toHaveText(text);
     await expect(screens(page).identified).toBeHidden();
@@ -64,7 +64,7 @@ for (const { status, body, text } of ERROR_CASES) {
 
 test('network failure shows the retry screen', async ({ page }) => {
   await page.route(IDENTIFY_GLOB, (route) => route.abort('internetdisconnected'));
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await expect(page.locator('#capture-error')).toHaveText(RETRY_TEXT);
   await expect(page.locator('#snap-btn')).toHaveText('↻ RETRY');

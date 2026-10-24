@@ -12,7 +12,7 @@ test('?demo=1 runs the cached hero job offline and never calls /api/identify', {
   const requests = trackRequests(page);
   const s = screens(page);
 
-  await page.goto('/?demo=1');
+  await page.goto('/demo/?demo=1');
   await expect(page.locator('#demo-badge')).toBeVisible();
   await expect(page.locator('#capture-note')).toHaveText(`Demo part ready: ${HERO.part.name} (cached)`);
 
@@ -34,7 +34,7 @@ test('?demo=1 runs the cached hero job offline and never calls /api/identify', {
 
 test('without the flag the cached plan is never fetched and no DEMO badge shows', { tag: '@smoke' }, async ({ page }) => {
   const requests = trackRequests(page);
-  await page.goto('/');
+  await page.goto('/demo/');
   await expect(page.locator('#screen-capture')).toBeVisible();
   await expect(page.locator('#demo-badge')).toBeHidden();
   await expect(page.locator('#capture-note')).toHaveText('');

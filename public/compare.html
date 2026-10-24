@@ -52,8 +52,8 @@
 
     <div class="phones">
       <figure>
-        <figcaption><h2>Original</h2><a id="link-a" href="/">Open on its own</a></figcaption>
-        <iframe id="frame-a" class="frame" src="/" title="Original skin" allow="camera; microphone"></iframe>
+        <figcaption><h2>Original</h2><a id="link-a" href="/demo/">Open on its own</a></figcaption>
+        <iframe id="frame-a" class="frame" src="/demo/" title="Original skin" allow="camera; microphone"></iframe>
       </figure>
       <figure>
         <figcaption><h2>Taste</h2><a id="link-b" href="/v2/">Open on its own</a></figcaption>
@@ -68,7 +68,7 @@
     (() => {
       const frames = [document.getElementById('frame-a'), document.getElementById('frame-b')];
       const links = [document.getElementById('link-a'), document.getElementById('link-b')];
-      const paths = ['/', '/v2/'];
+      const paths = ['/demo/', '/v2/']; // the original app lives in public/demo/
       const toggle = document.getElementById('demo-toggle');
       const reset = document.getElementById('reset');
       if (frames.some((f) => !f) || !toggle || !reset) return;

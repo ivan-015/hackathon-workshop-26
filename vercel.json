@@ -3,5 +3,12 @@
     "api/*.js": {
       "maxDuration": 30
     }
-  }
+  },
+  "redirects": [
+    { "source": "/links", "destination": "/", "permanent": false },
+    { "source": "/", "has": [{ "type": "query", "key": "demo" }], "destination": "/demo/", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/demo", "destination": "/demo/index.html" }
+  ]
 }

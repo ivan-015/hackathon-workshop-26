@@ -154,7 +154,8 @@ const server = http.createServer(async (req, res) => {
   try {
     const api = /^\/api\/([^/]+)\/?$/.exec(pathname);
     if (api) return await handleApi(req, res, api[1]);
-    return await handleStatic(res, pathname);
+    // The app lives in public/demo/; serve it at /demo as well as /demo/ (vercel.json does the same).
+    return await handleStatic(res, pathname === '/demo' ? '/demo/index.html' : pathname);
   } catch (err) {
     console.error('[e2e-server]', req.method, pathname, err);
     if (!res.headersSent) res.statusCode = err.status ?? 500;

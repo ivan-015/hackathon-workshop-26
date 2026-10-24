@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 test('app loads on a phone viewport with the capture screen', { tag: '@smoke' }, async ({ page }) => {
   const errors = [];
   page.on('pageerror', (err) => errors.push(err.message));
-  await page.goto('/');
+  await page.goto('/demo/');
   await expect(page.locator('#screen-capture')).toBeVisible();
   await expect(page.locator('#capture-headline')).toContainText('Point at the part.');
   await expect(page.locator('#snap-btn')).toBeVisible();

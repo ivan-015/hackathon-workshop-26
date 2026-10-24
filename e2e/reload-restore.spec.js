@@ -14,7 +14,7 @@ test('reload mid-job resumes at the same step with the same job id', async ({ pa
   });
   const progress = await captureProgress(page);
 
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await page.locator('#start-btn').tap();
   await page.locator('#next-btn').tap();
@@ -33,7 +33,7 @@ test('reload mid-job resumes at the same step with the same job id', async ({ pa
 
 test('reload on the Identified screen restores it', async ({ page }) => {
   await page.route(IDENTIFY_GLOB, identifyOk(STUB_PLAN));
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await expect(screens(page).identified).toBeVisible();
   await page.reload();
@@ -43,7 +43,7 @@ test('reload on the Identified screen restores it', async ({ page }) => {
 
 test('reload after Job done stays on Job done; NEW PART clears the saved job', async ({ page }) => {
   await page.route(IDENTIFY_GLOB, identifyOk(STUB_PLAN));
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await page.locator('#start-btn').tap();
   for (let i = 0; i < 3; i += 1) await page.locator('#next-btn').tap();
@@ -59,7 +59,7 @@ test('reload after Job done stays on Job done; NEW PART clears the saved job', a
 
 test('corrupt sessionStorage falls back to the capture screen', async ({ page }) => {
   const requests = trackRequests(page);
-  await page.goto('/');
+  await page.goto('/demo/');
   await page.evaluate(() => sessionStorage.setItem('ghc:job:v1', '{"plan":{"part":{}},"screen":"job"}'));
   await page.reload();
   await expect(screens(page).capture).toBeVisible();

@@ -14,7 +14,7 @@ async function say(page, transcript) {
 
 test('fake speech: "next" / "back" / "repeat" drive the job to Job done', async ({ page }) => {
   const s = screens(page);
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await page.locator('#start-btn').tap(); // first tap grants and activates voice
   await expectStep(page, 1, 3);
@@ -42,7 +42,7 @@ test('fake speech: "next" / "back" / "repeat" drive the job to Job done', async 
 });
 
 test('steps are spoken aloud with spec and warning', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await page.locator('#start-btn').tap();
   await page.locator('#next-btn').tap();
@@ -54,7 +54,7 @@ test('steps are spoken aloud with spec and warning', async ({ page }) => {
 });
 
 test('recognition network error shows "Voice offline, use buttons" and buttons still work', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await page.locator('#start-btn').tap();
   await expect.poll(() => page.evaluate(() => window.__voice.listening())).toBe(true);

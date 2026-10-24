@@ -18,7 +18,7 @@ test.describe('fake camera (Chromium fake media stream)', () => {
       return identifyOk(STUB_PLAN)(route);
     });
 
-    await page.goto('/');
+    await page.goto('/demo/');
     const btn = page.locator('#snap-btn');
     // Camera permission is pre-granted, so the app starts the preview on load.
     await expect(btn).toHaveText('📷 SNAP PART');
@@ -48,7 +48,7 @@ test('camera denied falls back to the file input', async ({ page, context }) => 
   await context.addInitScript(() => {
     navigator.mediaDevices.getUserMedia = () => Promise.reject(new DOMException('denied', 'NotAllowedError'));
   });
-  await page.goto('/');
+  await page.goto('/demo/');
   await page.locator('#snap-btn').tap();
   await expect(page.locator('#snap-btn')).toHaveText('📷 CHOOSE PHOTO');
   await expect(page.locator('#capture-error')).toHaveText('Camera blocked. Tap to choose a photo instead.');

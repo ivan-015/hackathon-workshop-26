@@ -11,7 +11,7 @@ test('full job: photo -> identified -> tap Next through to Job done', async ({ p
   const progress = await captureProgress(page);
   const s = screens(page);
 
-  await page.goto('/');
+  await page.goto('/demo/');
   await expect(s.capture).toBeVisible();
   await choosePhoto(page);
 
@@ -54,7 +54,7 @@ test('full job without a job_id sends no progress beacons', async ({ page }) => 
   await page.route(IDENTIFY_GLOB, identifyOk(STUB_PLAN, null));
   const progress = await captureProgress(page);
 
-  await page.goto('/');
+  await page.goto('/demo/');
   await choosePhoto(page);
   await page.locator('#start-btn').tap();
   await tapThroughJob(page, 3);
