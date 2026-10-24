@@ -19,7 +19,7 @@ Stack (fixed by the design, don't relitigate):
 ## Shared contracts (every agent codes against these)
 
 1. **JobPlan schema**: exactly as in the design doc, section "JobPlan schema".
-2. **`/api/identify` response**: `200 { job_id: string | null, plan: JobPlan }`, errors as listed in the design (400/413/429/502 `bad_model_output`/504 `upstream_timeout`). `job_id` is null when the DB is off or the insert failed.
+2. **`/api/identify` response**: `200 { job_id: string | null, plan: JobPlan }`, errors as listed in the design (400/413/429/502 `bad_model_output`/502 `upstream_error`/504 `upstream_timeout`), every error body `{ error, message }`. `job_id` is null when the DB is off or the insert failed.
 3. **`/api/check`** (stretch): `POST { image, step, job_id? }` → `{ passed: boolean | null, reason: string }`.
 4. **`/api/progress`**: `POST { job_id, current_step, status }` → `204`. Fire-and-forget from the client; the client ignores failures.
 5. **DB module** `lib/db.js` exports, all returning promises that never reject:
@@ -35,9 +35,9 @@ Env vars (Vercel dashboard + `.env.local`, never committed, never sent to the br
 Run lanes A, B and C in parallel, each in its own worktree. Each lane owns its files and touches nothing else.
 
 ### Lane A: Backend (design tasks T1 + T2)
-- Owns: `api/identify.js`, `lib/identify.js`, `lib/validate.js`, `lib/limit.js`, `lib/claude.js`, `scripts/eval-photos.mjs`, `cached/hero-part.json`, `vercel.json`, `package.json`, `test/identify.test.js`, `test/validate.test.js`.
+- Owns: `api/identify.js`, `lib/identify.js`, `lib/validate.js`, `lib/limit.js`, `lib/claude.js`, `scripts/eval-photos.mjs`, `public/cached/hero-part.json` (served at `/cached/hero-part.json`; Vercel serves `public/` as the site root), `vercel.json`, `package.json`, `test/identify.test.js`, `test/validate.test.js`.
 - Start with one curl probe of `claude-sonnet-5-5` with a tiny image (O12).
-- Limiter 200 req / 10 min per IP; 4 MB cap; jpeg/png/webp only; forced tool call; 25s server abort → 504; `validateJobPlan` → 502.
+- Limiter 200 req / 10 min per IP; 4 MB cap; jpeg/png/webp only; single strict `job_plan` tool with `tool_choice: auto` (forced `tool`/`any` returns 400 on `claude-sonnet-5-5`), no tool call → 502; 25s server abort → 504; `validateJobPlan` → 502.
 - Tests use a stubbed `saveJob`. `api/identify.js` imports `saveJob` from `lib/db.js`, which Lane C creates; until the merge, a local stub is fine.
 - Done when `node --test` passes and `eval-photos.mjs` writes a `hero-part.json` that passes `validateJobPlan`. If no demo photos exist yet, skip the eval run and say so.
 

@@ -115,8 +115,8 @@ describe('validateJobPlan', () => {
     assert.equal(validateJobPlan(makePlan({ steps })).ok, true);
   });
 
-  test('cached/hero-part.json passes validation', async () => {
-    const url = new URL('../cached/hero-part.json', import.meta.url);
+  test('public/cached/hero-part.json passes validation', async () => {
+    const url = new URL('../public/cached/hero-part.json', import.meta.url);
     const raw = JSON.parse(await readFile(url, 'utf8'));
     const result = validateJobPlan(raw);
     assert.equal(result.ok, true, JSON.stringify(result.errors));

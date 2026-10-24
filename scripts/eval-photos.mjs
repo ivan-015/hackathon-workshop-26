@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Run the demo photos through the real handleIdentify + Claude, print latency
-// per photo and the median (design R8), and write cached/hero-part.json from
+// per photo and the median (design R8), and write public/cached/hero-part.json from
 // the hero photo (design O7). Spends real API credits.
 //
 // Usage:
@@ -21,7 +21,7 @@ import { createRateLimiter } from '../lib/limit.js';
 import { validateJobPlan } from '../lib/validate.js';
 
 const MEDIA_TYPES = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' };
-const HERO_PATH = resolve(import.meta.dirname, '../cached/hero-part.json');
+const HERO_PATH = resolve(import.meta.dirname, '../public/cached/hero-part.json');
 const TARGET_MEDIAN_MS = 8_000;
 
 function median(values) {
@@ -92,7 +92,7 @@ async function main() {
     await writeFile(HERO_PATH, `${JSON.stringify(heroCheck.plan, null, 2)}\n`);
     console.log(`wrote ${HERO_PATH} from ${heroName}`);
   } else {
-    console.log(`hero ${heroName} did not produce a usable plan; cached/hero-part.json left unchanged`);
+    console.log(`hero ${heroName} did not produce a usable plan; public/cached/hero-part.json left unchanged`);
   }
 
   const failed = results.some((r) => r.status !== 200) || !heroCheck.ok;
