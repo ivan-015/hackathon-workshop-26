@@ -23,6 +23,48 @@ const MESSAGES = Object.freeze({
   low_confidence: 'Not sure. Retake closer, with the part number facing the camera.',
 });
 
+// ---- Labels (a skin may override them) ------------------------------------
+// A page can ship <script type="application/json" id="ghc-labels">{...}</script>
+// with any subset of these keys. `{n}` and `{text}` are filled at render time.
+// The defaults are the original skin's labels, emoji included; public/v2 overrides them with words.
+const DEFAULT_LABELS = Object.freeze({
+  snap_off: '📷 OPEN CAMERA', // taste-skill-ignore: original skin
+  snap_starting: '📷 STARTING...', // taste-skill-ignore: original skin
+  snap_live: '📷 SNAP PART', // taste-skill-ignore: original skin
+  snap_fallback: '📷 CHOOSE PHOTO', // taste-skill-ignore: original skin
+  retry: '↻ RETRY',
+  viewfinder_idle: '[ camera viewfinder ]',
+  viewfinder_unavailable: '[ camera unavailable ]',
+  start_job: 'START JOB · {n} steps',
+  start_anyway: 'START ANYWAY · {n} steps',
+  next: 'NEXT ▶',
+  done: 'DONE ✔', // taste-skill-ignore: original skin
+  warning: '⚠ {text}', // taste-skill-ignore: original skin
+  mic_listening: '🎙 Listening... say next · back · repeat', // taste-skill-ignore: original skin
+  mic_speaking: '🔊 Speaking...', // taste-skill-ignore: original skin
+  mic_offline: 'Voice offline, use buttons',
+});
+
+function readLabelOverrides() {
+  const el = document.getElementById('ghc-labels');
+  if (!el) return {};
+  try {
+    const parsed = JSON.parse(el.textContent);
+    if (!parsed || typeof parsed !== 'object') return {};
+    return Object.fromEntries(
+      Object.entries(parsed).filter(([key, value]) => key in DEFAULT_LABELS && typeof value === 'string'),
+    );
+  } catch (err) {
+    console.warn('ghc-labels is not valid JSON; using default labels', err);
+    return {};
+  }
+}
+
+const LABELS = Object.freeze({ ...DEFAULT_LABELS, ...readLabelOverrides() });
+
+const fillLabel = (template, vars = {}) =>
+  template.replace(/\{(\w+)\}/g, (_, key) => (key in vars ? String(vars[key]) : ''));
+
 // ---- State (replaced, never mutated) --------------------------------------
 let state = Object.freeze({
   screen: 'capture', // capture | identified | job | done
@@ -419,17 +461,17 @@ function fillList(ul, items) {
 
 function micHint() {
   const { mode, reason } = state.voice;
-  if (mode === 'listening') return { text: '🎙 Listening... say next · back · repeat', offline: false };
-  if (mode === 'speaking') return { text: '🔊 Speaking...', offline: false };
-  if (mode === 'offline' && reason === 'network') return { text: 'Voice offline, use buttons', offline: true };
+  if (mode === 'listening') return { text: LABELS.mic_listening, offline: false };
+  if (mode === 'speaking') return { text: LABELS.mic_speaking, offline: false };
+  if (mode === 'offline' && reason === 'network') return { text: LABELS.mic_offline, offline: true };
   return null;
 }
 
 const SNAP_LABELS = Object.freeze({
-  off: '📷 OPEN CAMERA',
-  starting: '📷 STARTING...',
-  live: '📷 SNAP PART',
-  fallback: '📷 CHOOSE PHOTO',
+  off: LABELS.snap_off,
+  starting: LABELS.snap_starting,
+  live: LABELS.snap_live,
+  fallback: LABELS.snap_fallback,
 });
 
 function renderCapture() {
@@ -437,7 +479,7 @@ function renderCapture() {
   show($('preview'), camera === 'live');
   show($('viewfinder-placeholder'), camera !== 'live');
   show($('uploading'), uploading);
-  $('viewfinder-placeholder').textContent = camera === 'fallback' ? '[ camera unavailable ]' : '[ camera viewfinder ]';
+  $('viewfinder-placeholder').textContent = camera === 'fallback' ? LABELS.viewfinder_unavailable : LABELS.viewfinder_idle;
 
   const errorText = error ? MESSAGES[error] : camera === 'fallback' ? MESSAGES.camera_denied : '';
   $('capture-error').textContent = errorText;
@@ -445,7 +487,7 @@ function renderCapture() {
 
   const btn = $('snap-btn');
   btn.disabled = uploading || camera === 'starting';
-  btn.textContent = error && error !== 'too_large' && lastImage ? '↻ RETRY' : SNAP_LABELS[camera];
+  btn.textContent = error && error !== 'too_large' && lastImage ? LABELS.retry : SNAP_LABELS[camera];
 
   show($('demo-badge'), IS_DEMO);
   $('capture-note').textContent = IS_DEMO
@@ -473,7 +515,9 @@ function renderIdentified() {
   const startable = canStartJob(plan);
   const start = $('start-btn');
   show(start, startable);
-  start.textContent = low ? `START ANYWAY · ${plan.steps.length} steps` : `START JOB · ${startable ? plan.steps.length : 0} steps`;
+  start.textContent = low
+    ? fillLabel(LABELS.start_anyway, { n: plan.steps.length })
+    : fillLabel(LABELS.start_job, { n: startable ? plan.steps.length : 0 });
   start.classList.toggle('btn-primary', !low);
   $('retake-btn').classList.toggle('btn-primary', low);
   show($('retake-hint'), state.voice.mode === 'listening' || state.voice.mode === 'speaking');
@@ -488,10 +532,10 @@ function renderJob() {
   $('step-text').textContent = s.text;
   $('spec-text').textContent = isNonEmptyString(s.spec) ? s.spec : '';
   show($('spec-box'), isNonEmptyString(s.spec));
-  $('step-warning').textContent = isNonEmptyString(s.warning) ? `⚠ ${s.warning}` : '';
+  $('step-warning').textContent = isNonEmptyString(s.warning) ? fillLabel(LABELS.warning, { text: s.warning }) : '';
   show($('step-warning'), isNonEmptyString(s.warning));
   $('back-btn').disabled = step === 0;
-  $('next-btn').textContent = step === total - 1 ? 'DONE ✔' : 'NEXT ▶';
+  $('next-btn').textContent = step === total - 1 ? LABELS.done : LABELS.next;
 
   const hint = micHint();
   show($('mic-hint'), Boolean(hint));

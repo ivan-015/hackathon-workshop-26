@@ -1,0 +1,432 @@
+/* Greasy Hands Copilot, v2 skin.
+   Style: true-black-flat (taste-skill app sheet, seed 1600864001), warmed to the garage:
+   an oil-dark ground, elevation by lightness alone, no borders or shadows at rest, one data hue
+   (hi-vis lime) on the step strip, the spec figure and the done mark. Never on a button. */
+
+:root {
+  --ground: #0e0d0c;
+  --surface: #181716;
+  --raised: #2a2826;
+  --control: #444444;
+  --text: #ffffff;
+  --muted: #b4b4b4;
+  --faint: #949494;
+  --accent: #c6f24e;
+  --positive: #c6f24e;
+  --negative: #e5484d;
+  --pill-warning-bg: #2b2414;
+  --pill-warning-ink: #e5a93b;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --primary: #ffffff;
+  --primary-ink: #000000;
+
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-title: 20px;
+  --fs-title-lg: 28px;
+  --fs-kpi: 24px;
+  --fs-step: 32px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+
+  --radius-card: 20px;
+  --radius-nested: 10px;
+  --radius-control: 999px;
+  --gap: 14px;
+  --pad: 16px;
+  --bar-height: 48px;
+  --control-height: 72px; /* the sheet's 36px pill, enlarged for gloved thumbs; see notes */
+  --strip-height: 12px;
+  --tick-width: 3px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-press: 120ms;
+  --t-ui: 200ms;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--ground);
+  color: var(--text);
+  font: 400 var(--fs-body) / 1.45 var(--font);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, p, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+img, video, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+[hidden] { display: none !important; }
+
+/* ---------- frame ---------- */
+.app {
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  padding: max(0px, env(safe-area-inset-top)) var(--pad) max(var(--pad), env(safe-area-inset-bottom));
+}
+
+.bar {
+  min-height: var(--bar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wordmark { font-size: var(--fs-body); font-weight: 600; }
+.bar-note { font-size: var(--fs-small); color: var(--muted); }
+
+/* ---------- type roles ---------- */
+.title {
+  font-size: var(--fs-title);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.title-lg { font-size: var(--fs-title-lg); letter-spacing: -0.02em; }
+
+.sub { font-size: var(--fs-body); color: var(--muted); }
+.note { font-size: var(--fs-small); color: var(--muted); }
+
+.error {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--negative);
+}
+
+/* ---------- surfaces ---------- */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  padding: 16px 18px;
+}
+
+.card-raised { background: var(--raised); }
+
+.card-title {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.list { display: grid; gap: 8px; line-height: 1.4; }
+
+.notice {
+  background: var(--pill-warning-bg);
+  color: var(--pill-warning-ink);
+  border-radius: var(--radius-nested);
+  padding: 12px 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ---------- capture ---------- */
+.viewfinder {
+  position: relative;
+  flex: 1;
+  min-height: 240px;
+  max-height: 56vh;
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.viewfinder video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.viewfinder-placeholder { font-size: var(--fs-body); font-weight: 500; color: var(--faint); }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: var(--scrim);
+  color: var(--text);
+  font-size: var(--fs-title);
+  font-weight: 600;
+}
+
+.ring {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--control);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- identified ---------- */
+.part-card { display: grid; gap: 6px; }
+
+.part-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-nested);
+  margin-bottom: 8px;
+}
+
+.part-name {
+  font-size: var(--fs-kpi);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- job ---------- */
+/* The ratchet strip: the steps as one row of segments, lit as they are done.
+   app.js sets the fill width; skin.js draws one tick per step boundary. */
+.ratchet {
+  position: relative;
+  height: var(--strip-height);
+  border-radius: calc(var(--strip-height) / 2);
+  background: var(--raised);
+  overflow: hidden;
+}
+
+.ratchet-fill {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width var(--t-ui) var(--ease-out);
+}
+
+.ratchet-ticks { position: absolute; inset: 0; }
+
+.ratchet-ticks .tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--tick-width);
+  margin-left: calc(var(--tick-width) / -2);
+  background: var(--ground);
+}
+
+.step {
+  font-size: var(--fs-step);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+  margin-top: 4px;
+}
+
+.spec {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  padding: 14px 18px;
+  display: grid;
+  gap: 2px;
+}
+
+.spec-value {
+  font-size: var(--fs-kpi);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.spec-note { font-size: var(--fs-small); color: var(--muted); }
+
+.mic {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+.mic::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+.mic.is-offline {
+  background: var(--pill-warning-bg);
+  color: var(--pill-warning-ink);
+  border-radius: var(--radius-nested);
+  padding: 12px 16px;
+  font-size: var(--fs-body);
+  font-weight: 500;
+}
+
+.mic.is-offline::before { display: none; }
+
+@keyframes pulse { 50% { opacity: 0.35; } }
+
+/* ---------- done ---------- */
+/* The one centred moment: the short summary sits mid-screen, the control stays at the thumb. */
+.done { flex: 1; display: grid; gap: 10px; align-content: center; padding-bottom: 24px; }
+.done-mark { color: var(--positive); margin-bottom: 6px; }
+.done-job { font-size: var(--fs-title); font-weight: 500; line-height: 1.3; }
+
+/* ---------- controls ---------- */
+.actions {
+  margin-top: auto;
+  padding-top: 8px;
+  display: grid;
+  gap: 10px;
+}
+
+.actions-stack { grid-template-columns: 1fr; }
+.actions-row { grid-template-columns: 1fr 1fr 1.6fr; }
+
+.btn {
+  min-height: var(--control-height);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--raised);
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.1;
+  padding: 8px 20px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-press) linear;
+}
+
+.actions-row .btn { padding: 8px 10px; font-size: 18px; }
+
+.btn:active { transform: scale(0.97); }
+.btn:disabled { background: var(--surface); color: var(--faint); cursor: default; }
+.btn:disabled:active { transform: none; }
+
+.btn-primary { background: var(--primary); color: var(--primary-ink); }
+.btn-primary:disabled { background: var(--raised); color: var(--faint); }
+
+@media (max-width: 360px) {
+  .btn { font-size: 18px; }
+  .actions-row .btn { font-size: 16px; }
+}
+
+/* On a phone the controls sit at the thumb, pinned to the foot of the screen. Wider than a phone
+   there is no thumb to reach, so the screen takes its content's height and the controls follow. */
+@media (min-width: 640px) {
+  .app { min-height: 0; }
+  .screen { flex: initial; }
+  .viewfinder { flex: initial; height: 360px; }
+  .actions { margin-top: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring { animation-duration: 3s; }
+  .mic::before { animation: none; }
+  .ratchet-fill, .btn { transition: none; }
+}
+
+/* ---------- substance panels (filled by skin.js from the saved plan) ---------- */
+.reticle {
+  position: absolute;
+  inset: 14px;
+  width: auto;
+  height: auto;
+  color: var(--control);
+  pointer-events: none;
+}
+
+.viewfinder video:not([hidden]) ~ .reticle { color: var(--text); opacity: 0.8; }
+
+.job-line {
+  margin-top: 8px;
+  font-size: var(--fs-body);
+  font-weight: 500;
+}
+
+.steps { display: grid; gap: 2px; }
+
+.step-row {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 6px 0;
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.step-row.is-current { color: var(--text); font-weight: 500; }
+
+.step-mark {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--raised);
+}
+
+.step-row.is-done .step-mark {
+  background: var(--accent);
+  -webkit-mask: var(--check) center / 12px no-repeat;
+  mask: var(--check) center / 12px no-repeat;
+}
+
+.step-row.is-current .step-mark { background: var(--accent); }
+
+:root {
+  --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12.5l5 5L20 6.5' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.specs { display: grid; gap: 12px; }
+.spec-row { display: grid; gap: 2px; }
+
+.spec-row-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+}
+
+.spec-row-step { font-size: var(--fs-small); color: var(--muted); line-height: 1.4; }
+
+/* On a phone the controls stay at the thumb even when the content scrolls. */
+@media (max-width: 639px) {
+  .actions {
+    position: sticky;
+    bottom: 0;
+    background: var(--ground);
+    padding-bottom: max(var(--pad), env(safe-area-inset-bottom));
+    margin-bottom: calc(-1 * max(var(--pad), env(safe-area-inset-bottom)));
+  }
+}

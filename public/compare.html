@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0e0d0c">
+  <title>Greasy Hands, two skins</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ground: #0e0d0c; --surface: #181716; --raised: #2a2826;
+      --text: #ffffff; --muted: #b4b4b4; --accent: #c6f24e;
+      --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --phone-w: 390px; --phone-h: 780px;
+      color-scheme: dark;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--ground); color: var(--text); font: 400 16px/1.45 var(--font); -webkit-font-smoothing: antialiased; }
+    h1, h2, p { margin: 0; }
+    button { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .page { max-width: 1040px; margin: 0 auto; padding: 24px 20px 48px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+    h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
+    .sub { color: var(--muted); margin-top: 4px; }
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn { min-height: 36px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--raised); color: var(--text); font-weight: 500; cursor: pointer; }
+    .btn[aria-pressed="true"] { background: #ffffff; color: #000000; }
+    .phones { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(var(--phone-w), 100%), 1fr)); gap: 24px; justify-items: center; }
+    figure { margin: 0; display: grid; gap: 10px; justify-items: start; width: 100%; max-width: var(--phone-w); }
+    figcaption { display: flex; justify-content: space-between; width: 100%; gap: 12px; }
+    figcaption h2 { font-size: 16px; font-weight: 600; }
+    figcaption a { color: var(--muted); font-size: 14px; }
+    .frame { width: 100%; height: var(--phone-h); border: 0; border-radius: 20px; background: var(--surface); }
+    .note { color: var(--muted); font-size: 14px; max-width: 64ch; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="head">
+      <div>
+        <h1>Two skins, one app</h1>
+        <p class="sub">The original and the taste-skill redesign share the same script, so tap through the same job in both.</p>
+      </div>
+      <div class="controls">
+        <button id="demo-toggle" class="btn" type="button" aria-pressed="false">Demo mode</button>
+        <button id="reset" class="btn" type="button">Reset job</button>
+      </div>
+    </header>
+
+    <div class="phones">
+      <figure>
+        <figcaption><h2>Original</h2><a id="link-a" href="/">Open on its own</a></figcaption>
+        <iframe id="frame-a" class="frame" src="/" title="Original skin" allow="camera; microphone"></iframe>
+      </figure>
+      <figure>
+        <figcaption><h2>Taste</h2><a id="link-b" href="/v2/">Open on its own</a></figcaption>
+        <iframe id="frame-b" class="frame" src="/v2/" title="Taste skin" allow="camera; microphone"></iframe>
+      </figure>
+    </div>
+
+    <p class="note">Both frames keep the job in the same browser storage, so a reload of one picks up where the other left off. Voice runs in both frames at once here, so use the buttons on this page and test voice on a phone.</p>
+  </main>
+
+  <script>
+    (() => {
+      const frames = [document.getElementById('frame-a'), document.getElementById('frame-b')];
+      const links = [document.getElementById('link-a'), document.getElementById('link-b')];
+      const paths = ['/', '/v2/'];
+      const toggle = document.getElementById('demo-toggle');
+      const reset = document.getElementById('reset');
+      if (frames.some((f) => !f) || !toggle || !reset) return;
+
+      const query = () => (toggle.getAttribute('aria-pressed') === 'true' ? '?demo=1' : '');
+      const load = () => {
+        const q = query();
+        paths.forEach((path, i) => {
+          frames[i].src = path + q;
+          links[i].href = path + q;
+        });
+      };
+
+      toggle.addEventListener('click', () => {
+        const next = toggle.getAttribute('aria-pressed') !== 'true';
+        toggle.setAttribute('aria-pressed', String(next));
+        load();
+      });
+
+      reset.addEventListener('click', () => {
+        try {
+          sessionStorage.clear();
+        } catch (err) {
+          console.warn('compare: could not clear session storage', err);
+        }
+        load();
+      });
+
+      if (new URLSearchParams(location.search).get('demo') === '1') {
+        toggle.setAttribute('aria-pressed', 'true');
+        load();
+      }
+    })();
+  </script>
+</body>
+</html>

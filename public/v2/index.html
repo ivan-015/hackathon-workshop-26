@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0e0d0c">
+  <title>Greasy Hands Copilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/json" id="ghc-labels">
+  {
+    "snap_off": "Open camera",
+    "snap_starting": "Starting camera",
+    "snap_live": "Snap part",
+    "snap_fallback": "Choose photo",
+    "retry": "Retry",
+    "viewfinder_idle": "Camera off",
+    "viewfinder_unavailable": "Camera unavailable",
+    "start_job": "Start job · {n} steps",
+    "start_anyway": "Start anyway · {n} steps",
+    "next": "Next",
+    "done": "Done",
+    "warning": "{text}",
+    "mic_listening": "Listening · say next, back or repeat",
+    "mic_speaking": "Speaking",
+    "mic_offline": "Voice offline, use the buttons"
+  }
+  </script>
+  <script type="module" src="../app.js"></script>
+  <script type="module" src="skin.js"></script>
+</head>
+<body>
+  <main id="app" class="app">
+
+    <!-- 1. Capture -->
+    <section id="screen-capture" class="screen" data-screen="capture">
+      <header class="bar">
+        <p class="wordmark">Greasy Hands</p>
+        <p id="demo-badge" class="bar-note" hidden>Demo</p>
+      </header>
+      <div id="viewfinder" class="viewfinder" role="button" tabindex="0" aria-label="Camera viewfinder. Tap to snap.">
+        <video id="preview" playsinline muted autoplay hidden></video>
+        <svg class="reticle" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d="M4 22V4h18M78 4h18v18M96 78v18H78M22 96H4V78" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
+        </svg>
+        <p id="viewfinder-placeholder" class="viewfinder-placeholder">Camera off</p>
+        <div id="uploading" class="overlay" hidden>
+          <div class="ring" aria-hidden="true"></div>
+          <p>Looking at your part</p>
+        </div>
+      </div>
+      <h1 id="capture-headline" class="title">Point at the part</h1>
+      <p class="sub">One photo. Then the tools, the safety notes and every step, read aloud.</p>
+      <p class="note">Tap the picture or say "snap".</p>
+      <p id="capture-error" class="error" role="alert" hidden></p>
+      <p id="capture-note" class="note"></p>
+      <input id="file-input" type="file" accept="image/*" capture="environment" hidden>
+      <div class="actions">
+        <button id="snap-btn" class="btn btn-primary" type="button">Open camera</button>
+      </div>
+    </section>
+
+    <!-- 2. Identified -->
+    <section id="screen-identified" class="screen" data-screen="identified" hidden>
+      <header class="bar">
+        <p class="wordmark">Greasy Hands</p>
+        <p class="bar-note">Identified</p>
+      </header>
+      <div class="card part-card">
+        <img id="part-thumb" class="part-photo" alt="Your photo of the part" hidden>
+        <h1 id="part-name" class="part-name"></h1>
+        <p id="part-detail" class="sub"></p>
+        <p id="v2-job-line" class="job-line" hidden></p>
+      </div>
+      <p id="low-confidence" class="notice" role="alert" hidden>Not sure. Retake closer, with the part number facing the camera.</p>
+      <div id="tools-card" class="card">
+        <h2 class="card-title">You'll need</h2>
+        <ul id="tools-list" class="list"></ul>
+      </div>
+      <div id="safety-card" class="card card-raised">
+        <h2 class="card-title">Safety</h2>
+        <ul id="safety-list" class="list"></ul>
+      </div>
+      <p id="retake-hint" class="note">Wrong part? Say "retake".</p>
+      <div class="actions actions-stack">
+        <button id="start-btn" class="btn btn-primary" type="button">Start job</button>
+        <button id="retake-btn" class="btn" type="button">Retake</button>
+      </div>
+    </section>
+
+    <!-- 3. Job mode -->
+    <section id="screen-job" class="screen" data-screen="job" hidden>
+      <header class="bar">
+        <p class="wordmark">Greasy Hands</p>
+        <p class="bar-note">Job</p>
+      </header>
+      <h1 id="job-meta" class="title"></h1>
+      <div class="ratchet" aria-hidden="true">
+        <div id="job-progress" class="ratchet-fill"></div>
+        <div id="ratchet-ticks" class="ratchet-ticks"></div>
+      </div>
+      <p id="step-text" class="step" aria-live="polite"></p>
+      <div id="spec-box" class="spec" hidden>
+        <strong id="spec-text" class="spec-value"></strong>
+        <span class="spec-note">Verify with service manual</span>
+      </div>
+      <p id="step-warning" class="notice" hidden></p>
+      <div id="v2-steps" class="card" hidden>
+        <h2 class="card-title">Steps</h2>
+        <ol id="v2-steps-list" class="steps"></ol>
+      </div>
+      <p id="mic-hint" class="mic" hidden></p>
+      <div class="actions actions-row">
+        <button id="back-btn" class="btn" type="button">Back</button>
+        <button id="repeat-btn" class="btn" type="button">Repeat</button>
+        <button id="next-btn" class="btn btn-primary" type="button">Next</button>
+      </div>
+    </section>
+
+    <!-- 4. Job done -->
+    <section id="screen-done" class="screen" data-screen="done" hidden>
+      <header class="bar">
+        <p class="wordmark">Greasy Hands</p>
+        <p class="bar-note">Done</p>
+      </header>
+      <div class="done">
+        <svg class="done-mark" viewBox="0 0 24 24" width="40" height="40" aria-hidden="true" focusable="false">
+          <path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h1 class="title title-lg">Job done</h1>
+        <p id="done-job" class="done-job"></p>
+        <p id="done-meta" class="sub"></p>
+      </div>
+      <div id="v2-specs" class="card" hidden>
+        <h2 class="card-title">Specs to verify against the service manual</h2>
+        <ul id="v2-specs-list" class="specs"></ul>
+      </div>
+      <p id="v2-no-specs" class="note">Double-check every torque spec against the service manual.</p>
+      <div class="actions">
+        <button id="new-part-btn" class="btn btn-primary" type="button">New part</button>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
