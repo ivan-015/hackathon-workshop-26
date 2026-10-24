@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111111">
+  <title>Greasy Hands Copilot</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <main id="app" class="app">
+
+    <!-- 1. Capture -->
+    <section id="screen-capture" class="screen" data-screen="capture">
+      <p class="meta">Greasy Hands Copilot<span id="demo-badge" class="badge" hidden>DEMO</span></p>
+      <div id="viewfinder" class="viewfinder" role="button" tabindex="0" aria-label="Camera viewfinder. Tap to snap.">
+        <video id="preview" playsinline muted autoplay hidden></video>
+        <p id="viewfinder-placeholder" class="viewfinder-placeholder">[ camera viewfinder ]</p>
+        <div id="uploading" class="overlay" hidden>
+          <div class="spinner" aria-hidden="true"></div>
+          <p>Looking at your part...</p>
+        </div>
+      </div>
+      <h1 id="capture-headline" class="headline">Point at the part.<br>Tap anywhere or say "snap".</h1>
+      <p id="capture-error" class="error" role="alert" hidden></p>
+      <p id="capture-note" class="note"></p>
+      <input id="file-input" type="file" accept="image/*" capture="environment" hidden>
+      <div class="actions">
+        <button id="snap-btn" class="btn btn-primary" type="button">📷 OPEN CAMERA</button>
+      </div>
+    </section>
+
+    <!-- 2. Identified -->
+    <section id="screen-identified" class="screen" data-screen="identified" hidden>
+      <div class="card part-card">
+        <img id="part-thumb" class="thumb" alt="" hidden>
+        <div>
+          <h2 id="part-name" class="part-name"></h2>
+          <p id="part-detail" class="sub"></p>
+        </div>
+      </div>
+      <div id="low-confidence" class="card card-alert" role="alert" hidden>
+        <strong>Not sure.</strong> Retake closer, with the part number facing the camera.
+      </div>
+      <div id="tools-card" class="card">
+        <h3>You'll need</h3>
+        <ul id="tools-list"></ul>
+      </div>
+      <div id="safety-card" class="card">
+        <h3>⚠ Safety</h3>
+        <ul id="safety-list" class="sub"></ul>
+      </div>
+      <p id="retake-hint" class="note">"Wrong part? Say 'retake'."</p>
+      <div class="actions actions-stack">
+        <button id="start-btn" class="btn btn-primary" type="button">START JOB</button>
+        <button id="retake-btn" class="btn btn-secondary" type="button">📷 RETAKE</button>
+      </div>
+    </section>
+
+    <!-- 3. Job mode -->
+    <section id="screen-job" class="screen" data-screen="job" hidden>
+      <p class="meta"><span id="job-meta"></span></p>
+      <div class="progress" aria-hidden="true"><div id="job-progress" class="progress-fill"></div></div>
+      <h1 id="step-text" class="step-text" aria-live="polite"></h1>
+      <div id="spec-box" class="spec" hidden>
+        <strong id="spec-text"></strong>
+        <span class="sub">verify with service manual</span>
+      </div>
+      <p id="step-warning" class="warning" hidden></p>
+      <p id="mic-hint" class="mic-hint" hidden></p>
+      <div class="actions actions-row">
+        <button id="back-btn" class="btn" type="button">◀ BACK</button>
+        <button id="repeat-btn" class="btn" type="button">↻ REPEAT</button>
+        <button id="next-btn" class="btn btn-primary" type="button">NEXT ▶</button>
+      </div>
+    </section>
+
+    <!-- Job done -->
+    <section id="screen-done" class="screen" data-screen="done" hidden>
+      <p class="meta" id="done-meta"></p>
+      <h1 class="headline headline-xl">✔ Job done</h1>
+      <p id="done-job" class="sub"></p>
+      <p class="note">Double-check every torque spec against the service manual.</p>
+      <div class="actions">
+        <button id="new-part-btn" class="btn btn-primary" type="button">📷 NEW PART</button>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
