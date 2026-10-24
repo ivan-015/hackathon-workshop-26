@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ff7a1f">
+  <meta name="description" content="Playwright recordings of the Greasy Hands Copilot demo flow on desktop, iPhone 14 and iPhone SE.">
+  <title>Walkthrough · Greasy Hands Copilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ff7a1f;
+      --ink: #050f16;
+      --paper: #ffffff;
+      --muted: #5a2306;
+      --m: clamp(12px, 1.4vw, 20px);
+      --step-small: clamp(0.75rem, 0.7rem + 0.15vw, 0.8125rem);
+      --step-body: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);
+      --step-head: clamp(1.625rem, 1rem + 1.6vw, 2.5rem);
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--bg); }
+    body {
+      margin: 0;
+      min-height: 100svh;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: var(--step-body);
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+    h1 { margin: 0; font-size: var(--step-head); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+    p { margin: 0; }
+
+    .gears { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+    .board {
+      position: relative;
+      z-index: 1;
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      gap: var(--m);
+      padding: var(--m);
+    }
+
+    .head {
+      background: var(--paper);
+      padding: clamp(20px, 3svh, 36px) clamp(20px, 3vw, 44px);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px 28px;
+    }
+    .head .lede { max-width: 60ch; margin-top: 10px; color: var(--muted); }
+    .head .back { font-weight: 500; text-underline-offset: 4px; }
+
+    .reels {
+      display: grid;
+      /* 5:2:2 puts a 16:10 desktop reel and two ~9:16 phone reels at about the same height. */
+      grid-template-columns: minmax(0, 5fr) minmax(0, 2fr) minmax(0, 2fr);
+      align-items: start;
+      gap: var(--m);
+    }
+    .reel { margin: 0; background: var(--ink); color: var(--paper); padding: 10px; }
+    .reel figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 2px 2px 10px; font-size: var(--step-small); font-weight: 700; }
+    .reel figcaption span { color: var(--bg); font-weight: 500; }
+    .reel video { display: block; width: 100%; height: auto; background: var(--paper); }
+
+    .foot { font-size: var(--step-small); font-weight: 500; color: var(--ink); }
+    .foot code { font: inherit; background: var(--paper); padding: 1px 6px; }
+
+    /* Mid widths: desktop reel on top, phones side by side below. */
+    @media (max-width: 1100px) {
+      .reels { grid-template-columns: 1fr 1fr; }
+      .reel.desktop { grid-column: 1 / -1; }
+    }
+
+    /* Narrow phones: everything in one column. */
+    @media (max-width: 420px) {
+      .reels { grid-template-columns: minmax(0, 1fr); }
+      .reel.phone { justify-self: center; width: min(100%, 300px); }
+    }
+  </style>
+</head>
+<body>
+  <canvas class="gears" aria-hidden="true"></canvas>
+  <main class="board">
+    <header class="head">
+      <div>
+        <h1>Walkthrough</h1>
+        <p class="lede">Playwright clicks through the demo: landing page, Try the demo, photo, identified part, all 9 brake job steps, Job done. Recorded against this site.</p>
+      </div>
+      <a class="back" href="/">&larr; Back to the links</a>
+    </header>
+
+    <section class="reels" aria-label="Recordings">
+      <figure class="reel desktop">
+        <figcaption>Desktop Chrome <span>1440×900</span></figcaption>
+        <video src="/walkthrough/desktop-chrome.mp4" poster="/walkthrough/desktop-chrome.jpg" width="1440" height="900" controls muted loop playsinline autoplay preload="metadata"></video>
+      </figure>
+      <figure class="reel phone">
+        <figcaption>iPhone 14 <span>390×664</span></figcaption>
+        <video src="/walkthrough/iphone-14.mp4" poster="/walkthrough/iphone-14.jpg" width="390" height="664" controls muted loop playsinline autoplay preload="metadata"></video>
+      </figure>
+      <figure class="reel phone">
+        <figcaption>iPhone SE <span>320×568</span></figcaption>
+        <video src="/walkthrough/iphone-se.mp4" poster="/walkthrough/iphone-se.jpg" width="320" height="568" controls muted loop playsinline autoplay preload="metadata"></video>
+      </figure>
+    </section>
+
+    <p class="foot">Run it yourself: <code>npm run test:flow</code> in the repo.</p>
+  </main>
+
+  <script>
+    // Respect reduced motion: no autoplay, the posters stay up until play is pressed.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('video').forEach((v) => { v.autoplay = false; v.pause(); });
+    }
+  </script>
+  <script type="module" src="/links/gears.js"></script>
+</body>
+</html>

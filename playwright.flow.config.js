@@ -39,7 +39,7 @@ export default defineConfig({
     },
     {
       name: 'iphone-se',
-      use: { ...devices['iPhone SE'], video: { mode: 'on', size: { width: 320, height: 548 } } },
+      use: { ...devices['iPhone SE'], video: { mode: 'on', size: { width: 320, height: 568 } } },
     },
   ],
   webServer: PREVIEW_URL
