@@ -6,19 +6,7 @@
 
 import { handleIdentify } from '../lib/identify.js';
 import { callClaude } from '../lib/claude.js';
-
-// lib/db.js is owned by the database lane. Until it is merged, fall back to a
-// no-op so identify works without a database (job_id comes back null).
-let saveJobPromise;
-function loadSaveJob() {
-  saveJobPromise ??= import('../lib/db.js')
-    .then((db) => (typeof db.saveJob === 'function' ? db.saveJob : async () => null))
-    .catch((err) => {
-      console.warn('[identify] lib/db.js unavailable, jobs will not be saved:', err?.message ?? err);
-      return async () => null;
-    });
-  return saveJobPromise;
-}
+import { saveJob } from '../lib/db.js';
 
 function clientIp(req) {
   const forwarded = req.headers?.['x-forwarded-for'];
@@ -42,7 +30,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    const saveJob = await loadSaveJob();
     const { status, body } = await handleIdentify({
       body: parseBody(req.body),
       ip: clientIp(req),
