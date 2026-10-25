@@ -104,6 +104,24 @@
     .actions .plain { font-weight: 500; text-underline-offset: 4px; transition: opacity 160ms; }
     .actions .plain:hover { opacity: 0.6; }
 
+    /* The two decks share one row, so the pair never costs two. */
+    .decks { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+    .decks h3 { flex-basis: 100%; }
+    .deck {
+      display: inline-flex;
+      align-items: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border: 3px solid var(--ink);
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 160ms, color 160ms, transform 160ms var(--ease);
+    }
+    .deck::before { content: "> "; white-space: pre; color: var(--muted); }
+    .deck:hover { background: var(--ink); color: var(--bg); }
+    .deck:hover::before { color: var(--bg); }
+    .deck:active { transform: scale(0.97); }
+
     /* The torn tool sheet. */
     .sheet {
       grid-area: 1 / 2 / 3 / 3;
@@ -253,6 +271,11 @@
           <a class="btn" href="/demo/?demo=1">Try the demo</a>
           <a class="plain" href="https://github.com/ivan-015/hackathon-workshop-26">The repo</a>
         </div>
+        <nav class="decks rise" style="--i:4" aria-labelledby="decks-title">
+          <h3 id="decks-title">The slides</h3>
+          <a class="deck" href="https://claude.ai/artifact/B7kscpJH8nBoQQvVeyfr7u" hreflang="en">English</a>
+          <a class="deck" href="https://claude.ai/artifact/BZduu2j1RJ6YmMgdQ3YKjN" hreflang="es" lang="es">Español</a>
+        </nav>
       </div>
     </article>
 
