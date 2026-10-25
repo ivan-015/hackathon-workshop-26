@@ -1,0 +1,32 @@
+<section id="browser-test" data-transition="fade" style="display:flex; flex-direction:column; gap:36px; padding:128px; background:#f5f2eb">
+  <div style="display:flex; flex-direction:row; gap:24px; align-items:center">
+    <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#2f6da8">Bonus · Test it like a user</p>
+    <p style="padding:6px 16px; font-family:'DM Sans', Arial, sans-serif; font-size:24px; font-weight:700; letter-spacing:2px; color:#fffdf8; background:#b4471b; border-radius:8px">LIVE</p>
+  </div>
+  <h2 style="font-family:'Source Serif 4', Georgia, serif; font-size:72px; font-weight:600; line-height:1.1; color:#17212e">Let the agent use your app</h2>
+  <div style="display:flex; flex-direction:row; gap:32px">
+    <div style="display:flex; flex-direction:column; gap:16px; flex:1; padding:36px; background:#fffdf8; border:1px solid #ddd6c7; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:32px; font-weight:700; line-height:1.2; color:#17212e">Look at it · your browser</h3>
+      <div style="display:flex; flex-direction:column; gap:2px; padding:28px; background:#17212e; border-radius:12px">
+        <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.45; color:#8db8e0"># claude --chrome</p>
+        <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.45; color:#e6edf3">Use my browser to go through</p>
+        <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.45; color:#e6edf3">hackathon.ivanavr.com and test the</p>
+        <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.45; color:#e6edf3">layouts from desktop down to small</p>
+        <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.45; color:#e6edf3">phones. Screenshot anything broken.</p>
+      </div>
+      <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; line-height:1.4; color:#4a5463">Best for: spotting layout bugs by eye.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:16px; flex:1; padding:36px; background:#fffdf8; border:2px solid #2f6da8; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:32px; font-weight:700; line-height:1.2; color:#17212e">Prove it · Playwright</h3>
+      <div style="display:flex; flex-direction:column; gap:2px; padding:28px; background:#17212e; border-radius:12px">
+        <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.45; color:#e6edf3">Write a Playwright test that clicks</p>
+        <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.45; color:#e6edf3">through the main flow on desktop and</p>
+        <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.45; color:#e6edf3">iPhone sizes. Record a video of each</p>
+        <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.45; color:#e6edf3">run, then run it and show me.</p>
+      </div>
+      <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; line-height:1.4; color:#4a5463">Best for: a check that reruns on every PR.</p>
+    </div>
+  </div>
+  <p style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; line-height:1.4; color:#17212e"><b>Free bonus:</b> that Playwright recording is your backup demo video for the judges.</p>
+  <aside>RUN: start Claude Code with claude --chrome (Claude in Chrome extension installed and signed in to the same account). Paste the left prompt; Chrome opens a visible tab and the room watches it resize and click through the app. Then paste the right prompt in the repo window. Playwright saves a video of each run (video: 'on' in playwright.config.ts) under test-results/; open one and play it. FALLBACK: play the video and screenshots from rehearsal. —— Two kinds of testing. The browser agent looks at the real site the way a person would, which catches things tests miss: overlapping text, a button off-screen on a small phone. Playwright turns the same walkthrough into a test that reruns in CI on every PR, so it never breaks silently again. Claude in Chrome can also record a GIF of what it did. If the agent shows something broken, fix it in the same session and run the test again.</aside>
+</section>

@@ -1,0 +1,40 @@
+<section id="build-task" data-transition="fade" style="display:flex; flex-direction:column; gap:44px; padding:128px; background:#f5f2eb">
+  <div style="display:flex; flex-direction:row; gap:24px; align-items:center">
+    <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#2f6da8">Paso 4 · Construir una tarea · pstack</p>
+    <p style="padding:6px 16px; font-family:'DM Sans', Arial, sans-serif; font-size:24px; font-weight:700; letter-spacing:2px; color:#fffdf8; background:#b4471b; border-radius:8px">EN VIVO</p>
+  </div>
+  <h2 style="font-family:'Source Serif 4', Georgia, serif; font-size:72px; font-weight:600; line-height:1.1; color:#17212e">Implementa tus tareas</h2>
+  <div style="display:flex; flex-direction:column; gap:4px; padding:36px 40px; background:#17212e; border-radius:16px">
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:28px; line-height:1.5; color:#e6edf3">/pstack:poteto-mode implementa la tarea de Linear</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:28px; line-height:1.5; color:#e6edf3">“Guardar una nota de trabajo”. Trabaja en una rama nueva</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:28px; line-height:1.5; color:#e6edf3">y abre un PR cuando pase.</p>
+  </div>
+  <div style="display:flex; flex-direction:row; gap:12px">
+    <div style="display:flex; flex-direction:column; gap:8px; flex:1; padding:24px; background:#fffdf8; border:1px solid #ddd6c7; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; font-weight:700; line-height:1.2; color:#17212e">/how</h3>
+      <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; line-height:1.35; color:#4a5463">Lee cómo funciona el código hoy</p>
+    </div>
+    <x-shape kind="arrow-right" style="width:32px; height:16px; align-self:center; background:#9aa5b1"></x-shape>
+    <div style="display:flex; flex-direction:column; gap:8px; flex:1; padding:24px; background:#fffdf8; border:1px solid #ddd6c7; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; font-weight:700; line-height:1.2; color:#17212e">/architect</h3>
+      <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; line-height:1.35; color:#4a5463">Bosqueja varios diseños</p>
+    </div>
+    <x-shape kind="arrow-right" style="width:32px; height:16px; align-self:center; background:#9aa5b1"></x-shape>
+    <div style="display:flex; flex-direction:column; gap:8px; flex:1; padding:24px; background:#fffdf8; border:1px solid #ddd6c7; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; font-weight:700; line-height:1.2; color:#17212e">Código + pruebas</h3>
+      <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; line-height:1.35; color:#4a5463">Escribe el código y sus pruebas</p>
+    </div>
+    <x-shape kind="arrow-right" style="width:32px; height:16px; align-self:center; background:#9aa5b1"></x-shape>
+    <div style="display:flex; flex-direction:column; gap:8px; flex:1; padding:24px; background:#fffdf8; border:1px solid #ddd6c7; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; font-weight:700; line-height:1.2; color:#17212e">Verifica</h3>
+      <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; line-height:1.35; color:#4a5463">Lo prueba en la app real</p>
+    </div>
+    <x-shape kind="arrow-right" style="width:32px; height:16px; align-self:center; background:#9aa5b1"></x-shape>
+    <div style="display:flex; flex-direction:column; gap:8px; flex:1; padding:24px; background:#17212e; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; font-weight:700; line-height:1.2; color:#f5f2eb">Abre el PR</h3>
+      <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; line-height:1.35; color:#bfcad6">Listo para revisión</p>
+    </div>
+  </div>
+  <p style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; line-height:1.4; color:#17212e"><b>poteto-mode</b> lee la tarea, elige el playbook adecuado (feature, bug, refactor) y corre cada paso. Nunca dejes que un agente trabaje directo en main.</p>
+  <aside>CORRER (ventana 1): pega el prompt de la diapositiva. Narra los pasos conforme aparecen: /how, luego los bocetos de /architect, luego la construcción. Dale unos 90 segundos. PLAN B: !git switch task-save-note, luego !git push -u origin task-save-note y !gh pr create --fill para abrir el PR desde la rama del ensayo. —— El router de pstack, poteto-mode, asigna cada petición a un playbook. Una feature nueva usa el playbook Feature: rastrea el código actual con /how, explora diseños con /architect, implementa, revisa su propio diff y lo verifica en la interfaz real. En Cursor es /add-plugin pstack; en Claude Code, el port de la comunidad.</aside>
+</section>

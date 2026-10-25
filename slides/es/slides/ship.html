@@ -1,0 +1,20 @@
+<section id="ship" data-transition="fade" style="display:flex; flex-direction:row; gap:64px; align-items:center; padding:128px; background:#f5f2eb">
+  <div style="display:flex; flex-direction:column; gap:36px; flex:1">
+    <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#2f6da8">Paso 6 · Publicar · GitHub + Vercel</p>
+    <h2 style="font-family:'Source Serif 4', Georgia, serif; font-size:72px; font-weight:600; line-height:1.1; color:#17212e">Publica gratis</h2>
+    <ol style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; line-height:1.45; color:#4a5463">
+      <li>Un prompt la despliega y agrega el check de PR.</li>
+      <li>Conecta el repo en Vercel una vez: cada PR tiene un link de preview.</li>
+      <li>Haz merge solo cuando el check esté en verde.</li>
+      <li>Merge a main y ya está en vivo.</li>
+    </ol>
+  </div>
+  <div style="width:760px; display:flex; flex-direction:column; gap:4px; padding:40px; background:#17212e; border-radius:16px">
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:26px; line-height:1.5; color:#8db8e0"># con el MCP de Vercel conectado:</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:26px; line-height:1.5; color:#e6edf3">Despliega esta app en Vercel y</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:26px; line-height:1.5; color:#e6edf3">dame el link en vivo.</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:26px; line-height:1.5; color:#e6edf3">Luego agrega una GitHub Action que</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:26px; line-height:1.5; color:#e6edf3">corra npm run check en cada PR.</p>
+  </div>
+  <aside>CORRER: en el PR del paso 5, señala el check en verde y el comentario con el preview de Vercel, abre el preview en tu teléfono y luego haz clic en Merge. Vercel despliega main a producción en más o menos un minuto. PLAN B: haz merge del PR del ensayo. —— Nadie tiene que escribir el archivo de CI a mano: este prompt despliega la app con el MCP de Vercel y hace que el agente escriba la GitHub Action. Conectar el repo en el panel de Vercel (Add New → Project → importar desde GitHub) es el único paso manual, y es lo que pone un link de preview en cada PR. GitHub Actions es gratis en repos públicos. El plan Hobby de Vercel es para uso no comercial, lo cual encaja con un hackathon. Nunca pongas API keys del modelo en variables NEXT_PUBLIC_.</aside>
+</section>

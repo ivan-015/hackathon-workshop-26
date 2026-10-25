@@ -1,0 +1,110 @@
+/* Slide viewer for the exported Claude decks (see scripts/build-slides.mjs).
+   Slides are authored on a fixed 1920x1080 canvas with inline styles only;
+   this file supplies the canvas, the element defaults, and the chrome. */
+
+:root {
+  --bg: #0d141c;
+  --ink: #f5f2eb;
+  --muted: #8db8e0;
+  --bar: 52px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: var(--bar) minmax(0, 1fr) var(--bar);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "DM Sans", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Chrome: back link and language switch on top, paging below. */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 max(16px, env(safe-area-inset-left)) 0 max(16px, env(safe-area-inset-right));
+  font-size: 15px;
+}
+.bar a { color: var(--ink); text-decoration: none; opacity: 0.85; }
+.bar a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+.bar a:focus-visible, .bar button:focus-visible { outline: 2px solid var(--muted); outline-offset: 3px; }
+.langs { display: flex; gap: 16px; }
+.langs [aria-current] { font-weight: 700; }
+footer.bar { justify-content: center; }
+.bar button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgb(245 242 235 / 0.25);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 160ms, transform 160ms var(--ease);
+}
+.bar button:hover:not(:disabled) { background: rgb(245 242 235 / 0.12); }
+.bar button:active:not(:disabled) { transform: scale(0.94); }
+.bar button:disabled { opacity: 0.3; cursor: default; }
+.count { min-width: 72px; text-align: center; font-variant-numeric: tabular-nums; color: var(--muted); }
+
+/* The canvas, scaled by viewer.js to fit the space between the bars. */
+.viewport { position: relative; overflow: hidden; touch-action: pan-y; }
+.stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1920px;
+  height: 1080px;
+  transform: translate(-50%, -50%) scale(var(--scale, 0.5));
+  box-shadow: 0 24px 80px rgb(0 0 0 / 0.5);
+}
+.stage > section {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #17212e;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 300ms ease, visibility 0s 300ms;
+}
+.stage > section.on { opacity: 1; visibility: visible; transition: opacity 300ms ease; }
+
+/* What the deck format leaves to the renderer. */
+.stage :is(h1, h2, h3, p, ul, ol, table) { margin: 0; }
+.stage :is(ul, ol) { padding-left: 1.3em; }
+.stage img { display: block; }
+.stage table { width: 100%; border-collapse: collapse; }
+.stage :is(th, td) { padding: 14px 24px 14px 0; text-align: left; vertical-align: top; border-bottom: 1px solid #ddd6c7; }
+.stage th { font-weight: 700; border-bottom: 2px solid #17212e; }
+.stage x-shape { display: block; flex: none; }
+.stage x-shape[kind="arrow-right"] { clip-path: polygon(0 35%, 55% 35%, 55% 0, 100% 50%, 55% 100%, 55% 65%, 0 65%); }
+
+/* Portrait phones get a 16:9 slide a few hundred pixels tall; say how to enlarge it. */
+.hint { display: none; }
+@media (orientation: portrait) and (max-width: 600px) {
+  .hint {
+    display: block;
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 24px;
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage > section, .stage > section.on { transition: none; }
+}

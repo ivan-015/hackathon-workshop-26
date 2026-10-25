@@ -12,6 +12,9 @@ Built live for the workshop talk **From Vibecoded to Demo-Ready** by Ivan Viglia
 | `/demo/` | The original app |
 | `/v2/` | A polished skin on the same app |
 | `/compare.html` | The two skins side by side |
+| `/slides/en/`, `/slides/es/` | The talk's slides in English and Spanish, no login needed |
+
+The slides come from the two Claude decks, exported into `slides/<lang>/` (a `deck.json` plus one HTML section per slide). After changing a deck there, run `npm run slides` to regenerate `public/slides/<lang>/index.html`. The build drops the speaker notes.
 
 Append `?demo=1` to the app URL to use the cached hero-part plan instead of calling the model. That flag exists so the on-stage demo survives bad venue wifi. Without the flag, a failed call shows a retry screen and never falls back to the cache.
 
