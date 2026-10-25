@@ -1,0 +1,62 @@
+{
+  "v": 4,
+  "attachments": {},
+  "cover": "cover",
+  "createdOnFiles": {
+    "at": "2026-10-23T04:10:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "faces": {
+    "dm-sans": {
+      "family": "DM Sans",
+      "href": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+    },
+    "source-serif-4": {
+      "family": "Source Serif 4",
+      "href": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&display=swap"
+    }
+  },
+  "lists": "css",
+  "order": [
+    "cover",
+    "tools",
+    "flow",
+    "roast",
+    "plan",
+    "visualize",
+    "tasks",
+    "backend-db",
+    "build-task",
+    "review-loop",
+    "ship",
+    "browser-test",
+    "polish",
+    "pitch",
+    "handout",
+    "close"
+  ],
+  "sections": {
+    "backend": {
+      "description": "Break the plan into tasks, then build one task with the Supabase MCP and pstack.",
+      "start": "tasks"
+    },
+    "intro": {
+      "description": "The method: idea to live app in six steps.",
+      "start": "cover"
+    },
+    "ship": {
+      "description": "PR review loop between two agents, merge to a free live link, and what judges reward.",
+      "start": "review-loop"
+    },
+    "spec": {
+      "description": "Roast the idea, plan it with gstack, and turn it into a visual overview.",
+      "start": "roast"
+    }
+  },
+  "title": "From Vibecoded to Demo-Ready"
+}

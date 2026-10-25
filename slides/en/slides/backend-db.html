@@ -1,0 +1,15 @@
+<section id="backend-db" data-transition="fade" style="display:flex; flex-direction:column; gap:44px; padding:128px; background:#f5f2eb">
+  <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#2f6da8">Step 4 · Build a task · Supabase MCP</p>
+  <h2 style="font-family:'Source Serif 4', Georgia, serif; font-size:72px; font-weight:600; line-height:1.1; color:#17212e">Build the database</h2>
+  <div style="display:flex; flex-direction:column; gap:4px; padding:40px; background:#17212e; border-radius:16px">
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:28px; line-height:1.5; color:#8db8e0"># connect the Supabase MCP to a dev project, then:</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:28px; line-height:1.5; color:#e6edf3">Create a jobs table (photo_url, part, manual_page, note,</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:28px; line-height:1.5; color:#e6edf3">user_id). Turn on RLS so users only see their own rows.</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:28px; line-height:1.5; color:#e6edf3">Add a storage bucket for photos.</p>
+  </div>
+  <div style="display:flex; flex-direction:row; padding:28px 36px; background:#fbefe8; border-left:6px solid #b4471b; border-radius:8px">
+    <p style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; line-height:1.4; color:#17212e"><b>Why RLS matters:</b> Moltbook leaked about 1.5 million API keys because its public Supabase key shipped with RLS off. AI tools often skip it unless you ask.</p>
+  </div>
+  <p style="font-family:'DM Sans', Arial, sans-serif; font-size:28px; line-height:1.4; color:#4a5463"><span style="color:#17212e"><b>Connect only the MCPs you need.</b></span> Each one eats the agent’s context and can carry prompt-injection risk.</p>
+  <aside>RUN (window 1): paste the prompt on the slide: Create a jobs table (photo_url, part, manual_page, note, user_id). Turn on RLS so users only see their own rows. Add a storage bucket for photos. Generate TypeScript types. When it finishes, type: show me the RLS policy you created. This is the database half of the “Save a job note” task. FALLBACK: open the Supabase dashboard and show the jobs table and its policy from rehearsal. —— The agent creates the table, the policy, the bucket and the types through the MCP, no dashboard clicking. Point it at a throwaway dev project, never production. Then ask it to show the RLS policy so the room sees it exists. Neon is a good alternative if you only need Postgres; Supabase also covers storage and login.</aside>
+</section>

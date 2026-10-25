@@ -1,0 +1,15 @@
+<section id="backend-db" data-transition="fade" style="background:#F5F2EB;color:#17212E;font-family:'DM Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:44px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#2F6DA8">Paso 4 · Construir una tarea · MCP de Supabase</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:72px;font-weight:600;line-height:1.1;color:#17212E">Crea la base de datos</h2>
+<div style="display:flex;flex-direction:column;gap:4px;background:#17212E;padding:40px;border-radius:16px;font-family:'JetBrains Mono', 'Courier New', monospace">
+<p style="font-size:28px;line-height:1.5;color:#8DB8E0"># conecta el MCP de Supabase a un proyecto de prueba:</p>
+<p style="font-size:28px;line-height:1.5;color:#E6EDF3">Crea una tabla jobs (photo_url, part, manual_page, note,</p>
+<p style="font-size:28px;line-height:1.5;color:#E6EDF3">user_id). Activa RLS para que cada usuario vea solo sus</p>
+<p style="font-size:28px;line-height:1.5;color:#E6EDF3">filas. Agrega un bucket para fotos.</p>
+</div>
+<div style="display:flex;background:#FBEFE8;padding:28px 36px;border-left:6px solid #B4471B;border-radius:8px">
+<p style="font-size:28px;line-height:1.4;color:#17212E"><b>Por qué importa RLS:</b> Moltbook filtró cerca de 1.5 millones de API keys porque su llave pública de Supabase salió con RLS apagado. Las herramientas de IA suelen omitirlo si no se lo pides.</p>
+</div>
+<p style="font-size:28px;line-height:1.4;color:#4A5463"><b style="color:#17212E">Conecta solo los MCP que necesitas.</b> Cada uno consume contexto del agente y puede traer riesgo de prompt injection.</p>
+<aside>CORRER (ventana 1): pega el prompt de la diapositiva: Crea una tabla jobs (photo_url, part, manual_page, note, user_id). Activa RLS para que cada usuario vea solo sus filas. Agrega un bucket para fotos. Genera los tipos de TypeScript. Cuando termine, escribe: muéstrame la política de RLS que creaste. Esta es la mitad de base de datos de la tarea “Guardar una nota de trabajo”. PLAN B: abre el panel de Supabase y muestra la tabla jobs y su política del ensayo. —— El agente crea la tabla, la política, el bucket y los tipos a través del MCP, sin hacer clic en el panel. Apúntalo a un proyecto de prueba, nunca a producción. Luego pídele que muestre la política de RLS para que el público vea que existe. Neon es una buena alternativa si solo necesitas Postgres; Supabase también incluye almacenamiento y login.</aside>
+</section>

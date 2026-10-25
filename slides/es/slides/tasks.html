@@ -1,0 +1,23 @@
+<section id="tasks" data-transition="fade" style="display:flex; flex-direction:column; gap:40px; padding:128px; background:#f5f2eb">
+  <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#2f6da8">Paso 3 · Tareas</p>
+  <h2 style="font-family:'Source Serif 4', Georgia, serif; font-size:72px; font-weight:600; line-height:1.1; color:#17212e">Divide el plan en tareas</h2>
+  <div style="display:flex; flex-direction:column; gap:4px; padding:36px 40px; background:#17212e; border-radius:16px">
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:28px; line-height:1.5; color:#e6edf3">Divide docs/eng-plan.md en tareas pequeñas, un PR cada</p>
+    <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:28px; line-height:1.5; color:#e6edf3">una, con criterios de aceptación. Créalas en Linear.</p>
+  </div>
+  <div style="display:flex; flex-direction:row; gap:24px">
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1; padding:32px; background:#fffdf8; border:1px solid #ddd6c7; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:32px; font-weight:700; line-height:1.2; color:#17212e">Linear</h3>
+      <p style="font-family:'JetBrains Mono', 'Courier New', monospace; font-size:24px; line-height:1.4; color:#2f6da8">claude mcp add --transport http linear-server https://mcp.linear.app/mcp</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1; padding:32px; background:#fffdf8; border:1px solid #ddd6c7; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:32px; font-weight:700; line-height:1.2; color:#17212e">GitHub Issues</h3>
+      <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; line-height:1.4; color:#4a5463">Gratis y junto a tu código. El agente usa gh issue create.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1; padding:32px; background:#fffdf8; border:1px solid #ddd6c7; border-radius:16px">
+      <h3 style="font-family:'DM Sans', Arial, sans-serif; font-size:32px; font-weight:700; line-height:1.2; color:#17212e">TASKS.md</h3>
+      <p style="font-family:'DM Sans', Arial, sans-serif; font-size:24px; line-height:1.4; color:#4a5463">Sin configuración. Una lista en el repo que el agente va marcando.</p>
+    </div>
+  </div>
+  <aside>CORRER (ventana 1, repo): pega el prompt de la diapositiva. Abre la pestaña de Linear y muestra cómo aparecen las tareas. Elige una, como “Guardar una nota de trabajo”, para el siguiente paso. PLAN B: muestra las tareas que creaste en el ensayo. —— Esto cambia un prompt gigante por piezas pequeñas y revisables, y así es como un equipo de cuatro reparte el trabajo sin pisarse: cada persona toma una tarea, y cada tarea tiene su propia rama y su propio PR. Linear tiene un servidor MCP oficial; GitHub Issues es gratis y ya está ahí; un archivo TASKS.md funciona sin configurar nada.</aside>
+</section>
